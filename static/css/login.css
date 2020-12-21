@@ -1,0 +1,272 @@
+main {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+main h1 {
+    font-size: 23px;
+    color: gray;
+
+}
+
+.btn {
+    padding: 5px 10px;
+    margin: 15px 0;
+    font-size: 18px;
+    border-color: rgb(32, 32, 32);
+    color: rgb(190, 146, 146);
+}
+
+.btn:hover {
+    background-color: rgb(66, 59, 59);
+}
+
+#signup ul {
+    margin-left: 20px;
+}
+
+#profile, #persons p {
+    font-size: 17px;
+    color: rgb(68, 59, 59);
+}
+
+.info-user {
+    text-indent: 10px;
+    margin: 2px 5px;
+}
+
+.create-person {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 17px;
+    color: rgb(31, 30, 30);
+}
+
+.create-person:hover {
+    color: rgb(102, 86, 86);
+}
+
+#id_style {
+    display: flex;
+    flex-direction: column;
+}
+
+#id_skin {
+    display: flex;
+    flex-flow: wrap row;
+    justify-self: flex-start;
+}
+
+.persons {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.person {
+    min-width: 165px;
+    text-align: center;
+    margin: 2px 6px;
+    padding: 5px 13px;
+    border: 1px solid #a250506e;
+    background: rgb(95 73 73 / 36%);
+    border-radius: 6px;
+}
+
+.person a {
+    display: block;
+}
+
+.option {
+    margin: 5px;
+    background-color: rgb(47 53 50);
+    text-align: center;
+}
+
+.option input[type=radio] {
+	display: none;
+}
+
+.option label {
+    cursor: pointer;
+}
+
+.option label p {
+    color: #48ef74;
+}
+
+.option input[type=radio]:checked + label {
+	border-bottom: 3px solid rgb(240, 29, 29);
+}
+
+.option label:hover {
+	border-bottom: 3px solid rgb(175, 94, 94);
+}
+
+.invisible {
+    display: none;
+}
+
+.delete-person {
+    margin-top: 5px;
+    margin-left: 10px;
+    text-align: left;
+}
+
+.delete-person a {
+    color: rgb(90, 17, 17);
+    transition-duration: 200ms;
+}
+
+.delete-person a:hover {
+    color: rgb(199, 45, 45);
+}
+
+#persons .selected {
+    color: #4a8575;
+}
+
+.btn-select {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin: auto;
+    display: block;
+    font-weight: 700;
+    border: 0;
+    background-color: transparent;
+    color: #386f4b;
+    font-size: 17px;
+    transition-duration: 200ms;
+}
+
+.btn-select:hover {
+    color: rgb(35 68 26);
+}
+
+.info {
+    text-align: left;
+}
+
+.info p span {
+    color: rgb(125 92 92);
+}
+
+.person-detail-link {
+    font-size: 17px;
+    color: #925353;
+    margin-bottom: 5px;
+    transition-duration: 300ms;
+}
+
+.person-detail-link:hover {
+    color: #bb3838;
+}
+
+.modal {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.person-modal {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.person-detail {
+    display: flex;
+    font-size: 19px;
+}
+
+.person-detail p {
+    color: #3c2626;
+}
+
+.person-detail img {
+    min-width: 155px;
+    height: 195px;
+    margin-right: 7px;
+}
+
+.skill-info, .style-info-link {
+    border: 0;
+    background-color: transparent;
+    color: #3b7b82;
+    transition-duration: 350ms;
+    font-size: inherit;
+    font-family: inherit;
+}
+
+.skill-info:hover, .style-info-link:hover {
+    color: #1e3f42;
+
+}
+
+.style-info {
+    color: #3c2626;
+    position: relative;
+    top: 215px;
+    margin: 50px;
+    padding: 10px;
+    background-color: #2a4346;
+    border-radius: 21px;
+    line-height: 20px;
+    justify-content: center;
+}
+
+.skill-style {
+    justify-content: center;
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    position: relative;
+    top: calc(50% - 110px);
+    background: #8f907f;
+    padding: 20px;
+    border-radius: 30px;
+    border: 1px solid black;
+}
+
+.skill-style span, .style-info span {
+    color: rgb(125 92 92);   
+}
+
+.skill {
+    text-align: left;
+    max-width: 275px;
+    padding: 10px 5px;
+    border-right: 1px solid black;
+}
+
+.skill:last-child {
+    padding-right: 0;
+    border: 0;
+}
+
+.close p {
+    position: relative;
+    top: 255px;
+    color:#5c8186;
+    transition-duration: 350ms;
+    font-size: 20px;
+}
+
+.close p:hover {
+    color: rgb(42, 86, 104)
+}
+
+.style-form {
+    display: flex;
+    flex-direction: row;
+}
+
+.style-form p {
+    margin-left: 10px;
+}

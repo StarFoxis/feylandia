@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block static %}
+<script src="{% static 'fontawesome_free/js/all.min.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/game.css' %}">
+{% endblock static %}
+
+{% block content %}
+<div class="game-maze">
+    <canvas width="765" height="765" id="canvas">К сожалению данная игра не поддерживается вашим браузером</canvas>
+    <div class="control">
+        <button class="key up" onclick="validPlayerMove(87)"><i class="far fa-arrow-alt-circle-up"></i></button>
+        <button class="key left" onclick="validPlayerMove(65)"><i class="far fa-arrow-alt-circle-left"></i></button>
+        <button class="key right" onclick="validPlayerMove(68)"><i class="far fa-arrow-alt-circle-right"></i></button>
+        <button class="key down" onclick="validPlayerMove(83)"><i class="far fa-arrow-alt-circle-down"></i></button>
+        <button class="key forward"><i class="fa fa-forward" aria-hidden="true" onclick="autoPlayerWins()"></i></button>
+    </div>
+</div>
+{% endblock content %}
+
+{% block javascript %}
+<script src="{% static 'js/game/maze/main.js' %}"></script>
+{% endblock javascript %}

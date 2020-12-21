@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block static %}
+<link rel="stylesheet" href="{% static 'css/game.css' %}">
+{% endblock static %}
+
+{% block content %}
+<div class="catalog">
+    <a href="{% url 'maze' %}" class="maze" style="background-image: url('{% static 'images/maze.png' %}')">Лабиринт</a>
+</div>
+{% endblock content %}
+
+{% block javascript %}
+<script src="{% static 'js/game.js' %}"></script>
+{% endblock javascript %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Главная
+{% endblock title %}
+
+{% block static %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock static %}
+
+{% block content %}
+    <h1>Добро пожаловать в мир "Фейляндии"</h1>
+    {% if user.is_authenticated %}
+        {% if is_persons %}
+            <a href="{% url 'game' %}">Играть</a>
+        {% else %}
+            <p>Чтобы начать свой путь в этом сказочном мире вы должны создать свою первую фею</p>
+            <a href="{% url 'create-person' %}">Создать фею</a>
+        {% endif %}
+    {% else %}
+        <p>Чтобы продолжить(начать) свой путь в <span>Фейляндии</span> авторизуйтесь(зарегистрируйтесь)</p>
+        <a href="{% url 'login' %}" class="login">Авторизоваться</a>
+        <a href="{% url 'signup' %}" class="register">Зарегистрироваться</a>
+    {% endif %}
+
+{% endblock content %}

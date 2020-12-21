@@ -1,0 +1,55 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <title>{% block title %}Feylandia{% endblock title %}</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% block static %}
+    {% endblock static %}
+</head>
+<body>
+    <header>
+        {% include 'includes/header.html' %}
+    </header>
+    <main>
+        <div class="conteiner">
+            {% block content %}
+            {% endblock content %}
+        </div>
+    </main>
+    <footer>
+        {% include 'includes/footer.html' %}
+    </footer>
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script> -->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('nav ul li a:not(:only-child)').click(function(e) {
+                $(this).siblings('.nav-dropdown').toggle();
+
+                $('.nav-dropdown').not($(this).siblings()).hide();
+                e.stopPropagation();
+            });
+
+            $('html').click(function() {
+                $('.nav-dropdown').hide();
+            });
+
+            $('#nav-toggle').click(function() {
+                $('nav ul').slideToggle();
+            });
+        
+            $('#nav-toggle').click(function() {
+                this.classList.toggle('active');
+            });
+        })
+    </script>
+    {% block javascript %}
+    {% endblock javascript %}
+</body>
+</html>

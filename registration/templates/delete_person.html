@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Удаление персонажа{% endblock title %}
+
+{% block static %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock static %}
+
+{% block content %}
+<form action="{% url 'delete-person' person.pk %}" method="post">
+    {% csrf_token %}
+    <h1>Удаление персонажа</h1>
+    <p>Удалить: {{ person.user }} {{ person.style }}</p>
+    <button type="submit" class="btn">Удалить</button>
+</form>
+{% endblock content %}

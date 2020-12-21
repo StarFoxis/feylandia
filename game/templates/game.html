@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block static %}
+<link rel="stylesheet" href="{% static 'css/game.css' %}">
+{% endblock static %}
+
+{% block content %}
+<h1>Игра в разработке</h1>
+<p>Пока можете поиграть <a href="{% url 'catalog' %}" class="catalog-link">тут</a></p>
+<!-- <canvas width="600" height="600" id="main-cvs"></canvas> -->
+{% endblock content %}
+
+{% block javascript %}
+<script src="{% static 'js/game.js' %}"></script>
+{% endblock javascript %}

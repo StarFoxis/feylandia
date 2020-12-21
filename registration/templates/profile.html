@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{% endblock title %}
+
+{% block static %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock static %}
+
+{% block content %}
+<div id="profile">
+    <h1>Профиль</h1>
+    <div class="info-user">
+        <p><b>Имя</b>: {{ user.first_name }}</p>
+        <p><b>Имя пользователя</b>: {{ user.username }}</p>
+        <p><b>Email</b>: {{ user.email }}</p>
+    </div>
+</div>
+<div id="persons">
+    <h1>Персонажи</h1>
+    <div class="info-user persons">
+        {% for person in persons %}
+            <div class="person {% if person.active %}person-active{% endif %}">
+                {% if person.active %}
+                    <p class="selected" id="person-{{ person.id }}">Выбрано</p>
+                {% else %}
+                    <button type="submit" class="btn-select" name="person_id" value="{{ person.id }}" id="person-{{ person.id }}">Выбрать</button>
+                {% endif %}
+                <a href="{% url 'person-detail' person.pk %}" class="person-detail-link">Подробнее</a>
+                <img src="{{ person.skin.image.url }}" alt="Скин">
+                <div class="info">
+                    <p><b>Класс</b>: <span>{{ person.style }}</span></p>
+                    <p><b>Уровень</b>: <span>{{ person.level }}</span></p>
+                    <p><b>Здоровье</b>: <span>{{ person.health }}</span></p>
+                    <p><b>Мана</b>: <span>{{ person.mana }}</span></p>
+                    <p><b>Монеты</b>: <span>{{ person.coins }}</span></p>
+                    <p class="delete-person"><a href="{% url 'delete-person' person.pk %}">Удалить</a></p>
+                </div>
+            </div>
+        {% empty %}
+            <p>У вас нет персонажей</p>
+        {% endfor %}
+    </div>
+    <p class="len-person">У вас {{ persons|length }} персонажей. (максимум 5)</p>
+    {% if persons|length < 5 %}
+        <a href="{% url 'create-person' %}" class='create-person'>Создать персонажа</a>
+    {% endif %}
+</div>
+{% endblock content %}
+
+{% block javascript %}
+<script>
+    function selectPerson() {
+        $('.btn-select').each((index, el) => {
+            $(el).click((event) => {
+                $.ajax({
+                    url: "{% url 'select-person' %}",
+                    data: {person_id: $(el).val()},
+                    dataType: 'json',
+                    success: function(data) {
+                        let persons = data.persons
+                        for (var person in persons) {
+                            let id = persons[person].id
+                            if (persons[person].active) {
+                                $(el).replaceWith(function() {
+                                    return $('<p />', {class: 'selected', 
+                                                       text: 'Выбрано', 
+                                                       id: `person-${id}`})
+                                })
+                            } else {
+                                $(`#person-${id}`).replaceWith(function() {
+                                    return `<button type="submit" class="btn-select" name="person_id" value="${id}" id="person-${id}">Выбрать</button>`
+                                })
+                            }
+                        }
+                    }
+                })
+            })
+        })
+    }
+
+    function deletePerson() {
+        $('.delete-person a').each((index, el) => {
+        $(el).click((event) => {
+            event.preventDefault()
+            let person = $(el).attr('href')
+            let flag = confirm('Вы действительно хотите удалить этого персонажа?')
+            if (flag) {
+                $.ajax({
+                    url: person,
+                    type: 'POST',
+                    data: {csrfmiddlewaretoken: "{{ csrf_token }}"},
+                    success: function(data) {
+                        console.log(data)
+                        $('.persons').empty()
+                        $('.persons').append($(data).find('.persons').html())
+                        $('.len-person').empty()
+                        $('.len-person').append($(data).find('.len-person').html())
+
+                        if ($('.create-person').length == 0) {
+                            $('#persons').append(`<a href="{% url 'create-person' %}" class='create-person'>Создать персонажа</a>`)
+                        }
+                    }
+                })
+            } 
+        })
+    })
+    }
+
+    $(document).ready(function() {
+        deletePerson()
+        selectPerson()
+    })
+
+    $(document).ajaxStop(function() {
+        deletePerson()
+        selectPerson()
+    })
+</script>
+{% endblock javascript %}

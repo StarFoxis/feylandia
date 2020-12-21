@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Создание персонажа{% endblock title %}
+
+{% block static %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock static %}
+
+{% block content %}
+
+<form action="" method="post" id="create_person">
+    {% csrf_token %}
+    <div class="style">
+        <h1>Выберите класс:</h1>
+        <div id="id_style">
+            {% for style in styles %}
+                <div class="style-form">
+                    <label for="{{ style.name }}">
+                        <input type="radio" name="style_id" value={{ style.id }} id="{{ style.name }}">
+                        {{ style.name }}
+                    </label>
+                    <p>
+                        <a class="style-info-link" data-modal='modal{{ forloop.counter }}'>Подробнее</a>
+                        <div class="modal{{ forloop.counter }}" style="display: none;">
+                            <div class="close">
+                                <p>Закрыть</p>
+                            </div>
+                            <div class="style-info">
+                                <p><b>{{ style.name }}:</b> <span>{{ style.desc }}</span></p>
+                                <div class="skill-style">
+                                    {% for skill in style.skill.all %}
+                                        <div class="skill">
+                                            <p><b>Имя умения:</b> <span>{{ skill.name }}</span></p>
+                                            <p><b>Описание:</b> <span>{{ skill.desc }}</span></p>
+                                            <p><b>Требуемый уровень:</b> <span>{{ skill.required_level }}</span></p>
+                                            <p><b>Требуемая мана:</b> <span>{{ skill.required_mana }}</span></p>
+                                        </div>
+                                    {% empty %}
+                                        <p>У данного класса нет умений</p>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="skin invisible">
+        <h1>Выберите скин:</h1>
+        <div id="id_skin"><!-- Заполняется с помощью jquery --></div>
+    </div>
+    <button type="submit" class="btn">Создать</button>
+</form>
+{% endblock content %}
+
+{% block javascript %}
+    <script>
+        let modal = null;
+
+        function closeModal() {
+            modal.css('display', 'none');
+            modal.removeClass('modal');
+            modal = null;
+        }
+
+        $('.style-info-link').click(function(event) {
+            // modal.css('display', 'block')
+            modal = $(`.${$(this).attr('data-modal')}`);
+            modal.css('display', 'block');
+            modal.addClass('modal');
+        })
+
+        $('.close').click(event => {
+            closeModal();
+        })
+
+        $(document).keyup(event => {
+            if (event.which == 27 && modal) closeModal();
+        })
+
+        $('#id_style').change(function(event) {
+            $.ajax({
+                url: "{% url 'require-skins' %}",
+                data: $('#create_person').serialize(),
+                dataType: 'json',
+                success: function(data) {
+                    $('.skin').removeClass('invisible')
+                    $('#id_skin').empty()
+                    let skins = data.skins
+                    for (var skin in skins) {
+                        id = skins[skin].id
+                        name = skins[skin].name
+                        image = skins[skin].image
+                        let input = `
+                            <div class="option">
+                                <input type="radio" name="skin_id" value=${id} id="${name}">
+                                <label for="${name}">
+                                    <p>${name}</p>
+                                    <img src="/media/${image}" alt="${name}">
+                                </label>
+                            </div>
+                        `
+                        $('#id_skin').append(input)
+                    }
+                }
+            })
+        })
+        $('.btn').click((event) => {
+            event.preventDefault()
+            let flag = false
+            style = $('#id_style input:checked')
+            skin = $('#id_skin input:checked')
+            if (style.length) {
+                if (skin.length) {
+                    flag = true
+                } else {
+                    alert('Вы не выбрали скин для своего персонажа')
+                }
+            } else {
+                alert('Вы не выбрали класс для своего персонажа')
+            }
+            if (flag) {
+                $.ajax({
+                    url: "{% url 'create-person' %}",
+                    type: 'POST',
+                    data: $('#create_person').serialize(),
+                    success: function(data) {
+                        window.location.replace("{% url 'profile' %}")
+                    }
+                })
+                return false
+                // $(window).attr('location', "{% url 'profile' %}")
+            }
+        })
+
+    </script>
+{% endblock javascript %}

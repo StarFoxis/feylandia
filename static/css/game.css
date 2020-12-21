@@ -1,0 +1,91 @@
+canvas {
+    display: block;
+    margin: auto;
+    border: 1px solid black;
+    width: 585px;
+    height: 585px;
+    background-color: white;
+}
+
+.catalog {
+    display: flex;
+    flex-direction: row;
+    font-size: 25px;
+    font-family: cursive;
+    border-top: 1px solid mediumvioletred;
+}
+
+.catalog div {
+    width: 200px;
+    display: inline-block;
+    min-height: 150px;
+    border: 2px solid black;
+    margin: 5px;
+    border-radius: 20px;
+    transition-duration: 300ms;
+}
+
+.catalog a {
+    display: block;
+    width: 200px;
+    min-height: 150px;
+    text-align: center;
+    line-height: 140px;
+    border: 2px solid black;
+    margin: 5px;
+    border-radius: 20px;
+    transition-duration: 300ms;
+}
+
+.maze {
+    color: #121211;
+}
+
+.maze:hover {
+    border: 2px solid rgb(45 206 50);
+    box-shadow: inset 3px 5px 10px 3px black;
+    color: #72c525;
+    text-shadow: 3px 2px 2px black;
+}
+
+.game-maze {
+    display: flex;
+}
+
+.control {
+    margin-top: 60px ;
+    width: 60px;
+}
+
+.key {
+    width: 50px;
+    font-size: 30px;
+    text-align: center;
+    margin: 2px;
+    background: transparent;
+    border: transparent;
+    display: inherit;
+    transition-duration: 200ms;
+}
+
+.key:hover {
+    color: rgb(187, 125, 125);
+}
+
+h1 {
+    font-size: 36px;
+}
+
+p {
+    font-size: 20px;
+}
+
+.catalog-link {
+    text-decoration: underline;
+    color:rgb(43, 54, 66);
+    transition-duration: 200ms;
+}
+
+.catalog-link:hover {
+    color: rgb(80, 181, 189);
+}

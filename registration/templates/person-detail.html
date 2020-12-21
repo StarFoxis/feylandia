@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ user.username }}: {{ person.style }}{% endblock title %}
+
+{% block static %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock static %}
+
+{% block content %}
+<h1>{{ person }}</h1>
+<div class="person-detail">
+    <img src="{{ person.skin.image.url }}" alt="Скин">
+    <div class="info">
+        <p><b>Класс</b>: <span>{{ person.style }}</span></p>
+        <p style="width: 375px"><b>Описание:</b> <span>{{ person.style.desc }}</span></p>
+        <p><button class="skill-info">Узнать умения</button></p>
+        <div class="person-modal">
+            <div class="close">
+                <p style="top: 25px;">Закрыть</p>
+            </div>
+            <div class="skill-style">
+                {% for skill in skills %}
+                    <div class="skill">
+                        <p><b>Имя умения:</b> <span>{{ skill.name }}</span></p>
+                        <p><b>Описание:</b> <span>{{ skill.desc }}</span></p>
+                        <p><b>Требуемый уровень:</b> <span>{{ skill.required_level }}</span></p>
+                        <p><b>Требуемая мана:</b> <span>{{ skill.required_mana }}</span></p>
+                    </div>
+                {% empty %}
+                    <p>У данного класса нет умений</p>
+                {% endfor %}
+            </div>
+        </div>
+        <p><b>Уровень</b>: <span>{{ person.level }}</span></p>
+        <p><b>Здоровье</b>: <span>{{ person.health }}</span></p>
+        <p><b>Мана</b>: <span>{{ person.mana }}</span></p>
+        <p><b>Монеты</b>: <span>{{ person.coins }}</span></p>
+        <p class="delete-person"><a href="{% url 'delete-person' person.pk %}">Удалить</a></p>
+    </div>
+</div>
+{% endblock content %}
+
+{% block javascript %}
+    <script>
+        function deletePerson() {
+            $('.delete-person a').click((event) => {
+                event.preventDefault()
+                let person = $(event.target).attr('href')
+                let flag = confirm('Вы действительно хотите удалить этого персонажа?')
+                if (flag) {
+                    $.ajax({
+                        url: person,
+                        type: 'POST',
+                        data: {csrfmiddlewaretoken: "{{ csrf_token }}"},
+                        success: function(data) {
+                            window.location.replace("{% url 'profile' %}")
+                        }
+                    })
+                } 
+            })
+        }
+
+        function PersonInfo() {
+            modal = $('.person-modal')
+            $('.skill-info').click((event) => {
+                modal.css('display', 'block')
+            })
+
+            $(document).keyup((event) => {
+                if (modal.css('display') && event.which == 27) modal.css('display', 'none') 
+            })
+            $('.close').click(() => modal.css('display', 'none'))
+        }
+
+        $(document).ready(function() {
+            deletePerson()
+            PersonInfo()
+        })
+
+        $(document).ajaxStop(function() {
+            deletePerson()
+        })
+    </script>
+{% endblock javascript %}

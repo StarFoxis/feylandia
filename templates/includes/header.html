@@ -1,0 +1,29 @@
+<section class="navigation">
+    <div class="nav-container">
+      <div class="brand logo">
+        <h1><a href="{% url 'home' %}">Feylandia</a></h1>
+      </div>
+      <nav>
+        <div class="nav-mobile"><a id="nav-toggle" href="#!"><span></span></a></div>
+        <ul class="nav-list">
+          <li>
+            <a href="{% url 'home' %}">Главная</a>
+          </li>
+          <li>
+            <a href="{% url 'game-info' %}">Об игре</a>
+          </li>
+          <li><a href="{% url 'catalog' %}">Каталог</a></li>
+          {% if user.is_authenticated %}
+            <li><a href="{% url 'profile' %}">Профиль</a></li>
+            <li><a href="{% url 'logout' %}">Выйти</a></li>
+            {% if user.is_staff %}
+                <li><a href="/admin/">Административная панель</a></li>
+            {% endif %}
+          {% else %}
+            <li><a href="{% url 'login' %}">Войти</a></li>
+            <li><a href="{% url 'signup' %}">Зарегистрироваться</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </section>
